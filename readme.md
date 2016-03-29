@@ -14,4 +14,6 @@ npm install validator
 you can run the server with...
 
     node index.js
+
+    (Note this needs to be changed, 27017 is specific to Mongo)
     PORT=5000 SESSION_SECRET='sdf' PG_URI="postgres://localhost:27017/storq" ./node_modules/.bin/nodemon index.js

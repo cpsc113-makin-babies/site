@@ -22,7 +22,7 @@ var sequelize = new Sequelize(process.env.PG_URI {
   },
 });
 
-//How should I change this to work for postgres?
+//How should I change this to work for postgres?  I assume I'm trying to create a new DB instance each time the app is loaded?
 var store = new MongoDBStore({
   uri: process.env.MONGO_URL,
   collection: 'sessions'
