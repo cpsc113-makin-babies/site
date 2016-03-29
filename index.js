@@ -3,23 +3,34 @@ var exphbs  = require('express-handlebars');
 var app = express();
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var MongoDBStore = require('connect-mongodb-session')(session);
-var mongoose = require('mongoose');
-mongoose.connect(process.env.MONGO_URL);
+var Sequelize = require("sequelize");
+// var MongoDBStore = require('connect-mongodb-session')(session);
+// var mongoose = require('mongoose');
+// mongoose.connect(process.env.MONGO_URL);
 var Users = require('./models/users.js');
 var Tasks = require('./models/tasks.js');
 
+//this needs to be changed to connect to a postgres database running on the local computer, later on heroku
+var sequelize = new Sequelize(process.env.PG_URI {
+  host: 'localhost',
+  dialect:'postgres',
 
+  pool: {
+    max: 5,
+    min: 0,
+    idle: 10000
+  },
+});
 
-//configure our app
-var store = new MongoDBStore({ 
+//How should I change this to work for postgres?
+var store = new MongoDBStore({
   uri: process.env.MONGO_URL,
   collection: 'sessions'
 });
+
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-
 
 app.use(session({ //   .use is express middleware, read about this
   secret: process.env.SESSION_SECRET,
@@ -28,8 +39,6 @@ app.use(session({ //   .use is express middleware, read about this
   cookie: { secure: 'auto' },
   store: store
 }))
-
-
 
 app.use(function(req, res, next){
   if(req.session.userId){
@@ -40,7 +49,7 @@ app.use(function(req, res, next){
       next();
     })
   }else{
-    next();  
+    next();
   }
 })
 
@@ -52,38 +61,21 @@ function isLoggedIn(req, res, next){
   }
 }
 
-function loadUserTasks(req, res, next) {
-  if(!res.locals.currentUser){
-    return next();
-  }
-  Tasks.find({}).or([
-      {owner: res.locals.currentUser},
-      {collaborators: res.locals.currentUser.email}])
-    .exec(function(err, tasks){
-      if(!err){
-        res.locals.tasks = tasks;
-        for(var i = 0; i< tasks.length; i++){
-          if(res.locals.currentUser._id.toString() == tasks[i].owner.toString()){
-            
-          }
-        }
-        
-      }
-      next();
-  })
-}
-
 
 app.get('/', loadUserTasks, function (req, res) {
       res.render('index');
 });
 
+app.get('/profile/', loadUserTasks, function (req, res) {
+      res.render('profile');
+});
+
 app.post('/user/register', function (req, res) {
     if(req.body.password !== req.body.password_confirmation){
         return res.render('index', {errors: "Password and password confirmation dont match"});
-    }  
-    
-    
+    }
+
+
     var newUser = new Users();
     newUser.hashed_password = req.body.password;
     newUser.email = req.body.email;
@@ -92,7 +84,7 @@ app.post('/user/register', function (req, res) {
        // If there are no errors, redirect to home page
     if(user && !err){
       req.session.userId = user._id;
-      res.redirect('/');
+      res.redirect('/profile/');
     }
     var errors = "Error registering you.";
     if(err){
@@ -114,13 +106,13 @@ app.post('/user/login', function (req, res) {
     console.log('user =', user);
     console.log('actual password =', user.hashed_password);
     console.log('provided password =', req.body.password);
-    
+
     user.comparePassword(req.body.password, function(err, isMatch){
       if(err || !isMatch){
         res.render('index', {errors: 'Invalid password'});
       }else{
         req.session.userId = user._id;
-        res.redirect('/')          
+        res.redirect('/')
       }
     });
   })
@@ -151,12 +143,12 @@ app.post('/task/create', function(req, res){
 
 app.post('/task/delete/:id', function(req, res){
    //var currentUserID= res.locals.currentUser._Id;
- 
+
  Tasks.findOne(req.params.id, function(err, task){
-   
+
    console.log(res.locals.currentUser._id);
    console.log(typeof(res.locals.currentUser._id));
-   
+
    if(res.locals.currentUser._id.toString() == task.owner.toString()){
      if(err){
        console.log('no delete');

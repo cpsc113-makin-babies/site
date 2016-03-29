@@ -2,6 +2,37 @@ var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
 var SALT_WORK_FACTOR = 10;
 
+// // this is an example pulled from the sequelize website for creating a new model
+// var User = sequelize.define('user', {
+//   firstName: {
+//     type: Sequelize.STRING,
+//     field: 'first_name' // Will result in an attribute that is firstName when user facing but first_name in the database
+//   },
+//   lastName: {
+//     type: Sequelize.STRING
+//     field: 'last_name'
+//   }
+//   //password needs to be hashed like it was in mongo, can this be done with bcrypt?
+//   password: {
+//     type: Sequelize.STRING
+//   }
+//   email: {
+//     type: Sequelize.STRING
+//   }
+// }, {
+//   freezeTableName: true // Model tableName will be the same as the model name
+// });
+//
+// User.sync({force: true}).then(function () {
+//   // Table created
+//   return User.create({
+//     firstName: 'John',
+//     lastName: 'Hancock',
+//     password: '123',
+//     email: 'john@john.com'
+//   });
+// });
+
 var Schema = mongoose.Schema,
     ObjectId = Schema.ObjectId;
 

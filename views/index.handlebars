@@ -1,4 +1,4 @@
-<h1>Nick's Neat Todo App</h1>
+<h1>The StorQ</h1>
 
 {{#if errors}}
 <div style="color:red" class="validation-error">
@@ -17,14 +17,14 @@
                 <li>{{this.title}}</li>
                 <form action="/task/delete/{{this.id}}" method="POST">
                     <input type="submit" name="delete-task" class="delete-task" value="delete">
-                </form>  
+                </form>
                 <form action="/task/complete/{{this.id}}" method="POST">
                     <input type="submit" name="complete-task" class="toggle-task" value="complete-task">
-                </form> 
+                </form>
                 </li>
             {{/each}}
             </ul>
-            
+
             {{else}}
                 No tasks to show!
         {{/if}}
@@ -42,9 +42,9 @@
             <input name="collaborator2" type="email"><br>
             <input name="collaborator3" type="email"><br>
             <input type="submit">
-        </form>        
+        </form>
     </div>
-        
+
 {{else}}
 <div> <h3>Log In Form</h3>
     <form class="login-form" action="/user/login" method="POST">
@@ -60,7 +60,8 @@
 
 <div><h3>Registration Form</h3>
     <form action="/user/register" method="post" class="signup-form" style="display: block;">
-      <input name="fl_name" type="text" class="text-input" placeholder="first &amp; last name">
+      <input name="first" type="text" class="text-input" placeholder="First Name">
+      <input name="last" type="text" class="text-input" placeholder="Last Name">
       <input name="email" type="email" class="text-input" placeholder="email">
       <input name="password" type="password" class="text-input" placeholder="password">
       <input name="password_confirmation" type="password" class="text-input" placeholder="password confirmation">
