@@ -8,10 +8,9 @@ var Sequelize = require("sequelize");
 // var mongoose = require('mongoose');
 // mongoose.connect(process.env.MONGO_URL);
 var Users = require('./models/users.js');
-var Tasks = require('./models/tasks.js');
 
 //this needs to be changed to connect to a postgres database running on the local computer, later on heroku
-var sequelize = new Sequelize(process.env.PG_URI {
+var sequelize = new Sequelize(process.env.DATABASE_URL {
   host: 'localhost',
   dialect:'postgres',
 
@@ -60,7 +59,6 @@ function isLoggedIn(req, res, next){
     res.sendStatus(403);
   }
 }
-
 
 app.get('/', loadUserTasks, function (req, res) {
       res.render('index');
@@ -126,54 +124,6 @@ app.get('/user/logout', function(req, res){
 //  the user to be logged in.
 app.use(isLoggedIn);
 
-app.post('/task/create', function(req, res){
-  var newTask = new Tasks();
-  newTask.owner = res.locals.currentUser._id;
-  newTask.title = req.body.title;
-  newTask.description = req.body.description;
-  newTask.collaborators = [req.body.collaborator1, req.body.collaborator2, req.body.collaborator3];
-  newTask.save(function(err, savedTask){
-    if(err || !savedTask){
-      res.send('Error saving task!');
-    }else{
-      res.redirect('/');
-    }
-  });
-});
-
-app.post('/task/delete/:id', function(req, res){
-   //var currentUserID= res.locals.currentUser._Id;
-
- Tasks.findOne(req.params.id, function(err, task){
-
-   console.log(res.locals.currentUser._id);
-   console.log(typeof(res.locals.currentUser._id));
-
-   if(res.locals.currentUser._id.toString() == task.owner.toString()){
-     if(err){
-       console.log('no delete');
-     }
-     else
-     {
-       console.log('deleted');
-       task.remove();
-     }
-     res.redirect('/');
-   }
- });
-});
-
-
-app.post('/task/complete/:id', function(req, res){
-//this is used to mark tasks complete
-Tasks.findById(req.params.id, function(err, task){
-  if(err){
-   }else{
-     task.isComplete = true
-   }
- res.redirect('/');
-});
-});
 
 app.listen(process.env.PORT, function () {
   console.log('Example app listening on port ' + process.env.PORT);
