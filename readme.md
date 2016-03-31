@@ -1,18 +1,19 @@
-#CPSC 113 Social ToDo App
+#CPSC Project - this is the StorQ App
 
-This is Nick Lovejoy's app, it will be amazing!
+This is our app, it will be amazing!
 
 ##How to run this
+
+I npm installed
+
+npm install sequelize --save
+npm install pg --save
+npm install pg-hstore --save
+npm install validator
 
 you can run the server with...
 
     node index.js
-    nodemon index.js (this allows automatic reloading)
 
-    PORT=5000 SESSION_SECRET='sdf' MONGO_URL="mongodb://localhost:27017/social-todo" ./node_modules/.bin/nodemon index.js
-
-Note:
-  Had to npm install
-    *nodemon
-    *mongodb
-    
+    (Note this needs to be changed, 27017 is specific to Mongo)
+    PORT=5000 SESSION_SECRET='sdf' PG_URI="postgres://postgres:postgres@localhost:5432/storq" ./node_modules/.bin/nodemon index.js
