@@ -58,21 +58,25 @@ app.get('/profile/', function (req, res) {
       res.render('profile');
 });
 
+app.get('/registration/', function (req, res) {
+      res.render('registration');
+});
+
 app.post('/user/register', function (req, res) {
     if(req.body.password !== req.body.password_confirmation){
         return res.render('index', {errors: "Password and password confirmation dont match"});
     }
 
-
     var newUser = new Users();
     newUser.hashed_password = req.body.password;
     newUser.email = req.body.email;
-    newUser.name = req.body.fl_name;
+    newUser.first_name = req.body.first;
+    newUser.last_name = req.body.last;
     newUser.save(function(err, user){
        // If there are no errors, redirect to home page
     if(user && !err){
       req.session.userId = user._id;
-      res.redirect('/profile/');
+      res.redirect('/registration/');
     }
     var errors = "Error registering you.";
     if(err){
