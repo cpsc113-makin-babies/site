@@ -3,23 +3,13 @@ var exphbs  = require('express-handlebars');
 var app = express();
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var Sequelize = require("sequelize");
-// var MongoDBStore = require('connect-mongodb-session')(session);
-// var mongoose = require('mongoose');
-// mongoose.connect(process.env.MONGO_URL);
+var MongoDBStore = require('connect-mongodb-session')(session);
+var mongoose = require('mongoose');
+mongoose.connect(process.env.MONGO_URL);
 var Users = require('./models/users.js');
+var Matches = require('./models/matches.js');
 
 //this needs to be changed to connect to a postgres database running on the local computer, later on heroku
-var sequelize = new Sequelize(process.env.DATABASE_URL {
-  host: 'localhost',
-  dialect:'postgres',
-
-  pool: {
-    max: 5,
-    min: 0,
-    idle: 10000
-  },
-});
 
 //How should I change this to work for postgres?  I assume I'm trying to create a new DB instance each time the app is loaded?
 var store = new MongoDBStore({
@@ -60,11 +50,11 @@ function isLoggedIn(req, res, next){
   }
 }
 
-app.get('/', loadUserTasks, function (req, res) {
+app.get('/', function (req, res) {
       res.render('index');
 });
 
-app.get('/profile/', loadUserTasks, function (req, res) {
+app.get('/profile/', function (req, res) {
       res.render('profile');
 });
 
