@@ -22,8 +22,11 @@ var UserSchema = new Schema({
     },
     first_name: stringField,
     last_name: stringField,
-    dob:  {type: Date},
-    hashed_password: stringField
+    hashed_password: stringField,
+    role: {type: String},
+    educ: {type: String},
+    zip: {type: Number},
+    dob:  {type: Date}
 });
 
 UserSchema.pre('save', function(next) {

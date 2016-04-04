@@ -1,0 +1,103 @@
+<head>
+  <style>
+    .btn-file {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-file input[type=file] {
+      position: absolute;
+      top: 0;
+      right: 0;
+      min-width: 100%;
+      min-height: 100%;
+      font-size: 100px;
+      text-align: right;
+      filter: alpha(opacity=0);
+      opacity: 0;
+      background: red;
+      cursor: inherit;
+      display: block;
+    }
+
+    input[readonly] {
+      background-color: white !important;
+      cursor: text !important;
+    }
+
+    .datefield {
+      display: inline;
+      padding: 0.3em;
+      border: inset 1px #CCC;
+      background: #FFF;
+      border-radius: 4px;
+      color: #666;
+    }
+
+    .datefield * {
+      display: inline-block;
+    }
+
+    .datefield input {
+      width: 1.7em;
+      padding: 0 0.4em;
+      border: none;
+      font-size: 100%;
+      background: none;
+      color: #000;
+    }
+    .datefield input#year { width:2.5em; }
+    .datefield input:focus { outline:none; }
+
+  </style>
+</head>
+
+<div class="container">
+  <h2>Build Your Profile!</h2>
+  <p>Start building your profile here.  We'll use this information to match you with what you're looking for!</p>
+  <form action="/user/profile" method="post" class="form-horizontal" >
+    <div class="col-xs-3">
+      <label for="role">Select what role you'd like to take</label>
+      <select class="form-control" id="role">
+        <option name="sperm">Sperm donor</option>
+        <option name="egg">Egg donor</option>
+        <option name="carrier">Gestational carrier</option>
+        <option name="looking">Couple looking for a gestational carrier</option>
+      </select>
+      <br>
+      <label for="educ">Select your education level</label>
+      <select class="form-control" id="educ">
+        <option name="some-hs">Some High School</option>
+        <option name="hs-degree">High School Degree</option>
+        <option name="some-college">Some College</option>
+        <option name="assoc-degree">Associates Degree</option>
+        <option name="col-degree">Bachelor's Degree</option>
+        <option name="master">Master's Degree</option>
+        <option name="phd">Doctorate Degree</option>
+        <option name="not-list">I'd prefer not to list this</option>
+      </select>
+      <br>
+      <label for="zip">Please enter your Zip Code</label>
+      <input name="zip" type="number" class="form-control" placeholder="Your Zip Code">
+      <br>
+      <label for="dob">Please enter your date of birth</label>
+      <input name="dob" type="date" class="form-control" placeholder="Your Zip Code">
+      <br>
+      <div class="input-group">
+          <span class="input-group-btn">
+              <span class="btn btn-primary btn-file">
+                  Browse&hellip; <input type="file" multiple>
+              </span>
+          </span>
+          <input type="text" class="form-control" readonly>
+      </div>
+      <span class="help-block">
+          Please add your profile picture here
+      </span>
+      <br>
+      <div>
+        <button class="blue sign-up-submit">Finish Registration</button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -6,46 +6,6 @@
 </div>
 {{/if}}
 
-{{#if currentUser}}
-    <h2>Welcome, {{currentUser.name}}</h2>
-    <div>
-        <h4>Your Tasks</h4>
-
-        {{#if tasks}}
-            <ul>
-            {{#each tasks}}
-                <li>{{this.title}}</li>
-                <form action="/task/delete/{{this.id}}" method="POST">
-                    <input type="submit" name="delete-task" class="delete-task" value="delete">
-                </form>
-                <form action="/task/complete/{{this.id}}" method="POST">
-                    <input type="submit" name="complete-task" class="toggle-task" value="complete-task">
-                </form>
-                </li>
-            {{/each}}
-            </ul>
-
-            {{else}}
-                No tasks to show!
-        {{/if}}
-    </div>
-    <hr>
-    <div>
-        <h4>Add a new task</h4>
-        <form action="/task/create" method="POST">
-            <label for="title">Task title</label>
-            <input name="title" type="text"><br>
-            <label for="description">Task Description</label>
-            <input name="description" type="text"><br>
-            Collaborators<br>
-            <input name="collaborator1" type="email"><br>
-            <input name="collaborator2" type="email"><br>
-            <input name="collaborator3" type="email"><br>
-            <input type="submit">
-        </form>
-    </div>
-
-{{else}}
 <div> <h3>Log In Form</h3>
     <form class="login-form" action="/user/login" method="POST">
         <label for="email">Email</label>
@@ -70,4 +30,3 @@
       </div>
     </form>
 </div>
-{{/if}}
