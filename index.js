@@ -73,7 +73,7 @@ app.post('/user/register', function (req, res) {
     newUser.first_name = req.body.first;
     newUser.last_name = req.body.last;
     newUser.save(function(err, user){
-       // If there are no errors, redirect to home page
+       // If there are no errors, redirect to additional detail page
     if(user && !err){
       req.session.userId = user._id;
       res.redirect('/registration/');
@@ -87,6 +87,28 @@ app.post('/user/register', function (req, res) {
     }
   });
 });
+
+app.post('/user/profile', function (req, res) {
+  Users.findByIdAndUpdate(res.locals.currentUser._id), {
+      $set: {
+        role: req.body.role,
+        educ: req.body.educ,
+        zip: req.body.zip,
+        dob: req.body.dob,
+      }
+    }, res.redirect('/profile/');
+       // If there are no errors, redirect to profile
+    // if(user && !err){
+    //   req.session.userId = user._id;
+    //   res.redirect('/profile/');
+    // }
+    var errors = "Error registering you.";
+    if(err){
+      }
+      return res.render('index', {errors: errors});
+    }
+  );
+
 
 
 app.post('/user/login', function (req, res) {
