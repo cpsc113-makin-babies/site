@@ -89,19 +89,18 @@ app.post('/user/register', function (req, res) {
 });
 
 app.post('/user/profile', function (req, res) {
-  Users.findByIdAndUpdate(res.locals.currentUser._id), {
+  console.log("current user _id is ", res.locals.currentUser._id);
+  Users.findById(res.locals.currentUser._id), {
+      //this is where I'm trying to find record by id and add new info. Not sure if I'm doing this right
       $set: {
         role: req.body.role,
         educ: req.body.educ,
         zip: req.body.zip,
         dob: req.body.dob,
       }
+      //redirect to profile
     }, res.redirect('/profile/');
-       // If there are no errors, redirect to profile
-    // if(user && !err){
-    //   req.session.userId = user._id;
-    //   res.redirect('/profile/');
-    // }
+
     var errors = "Error registering you.";
     if(err){
       }
