@@ -125,7 +125,7 @@ app.post('/user/login', function (req, res) {
         res.render('index', {errors: 'Invalid password'});
       }else{
         req.session.userId = user._id;
-        res.redirect('/')
+        res.redirect('/profile/')
       }
     });
   })
