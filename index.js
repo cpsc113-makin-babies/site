@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var MongoDBStore = require('connect-mongodb-session')(session);
 var mongoose = require('mongoose');
-mongoose.connect(process.env.MONGO_URL);
+mongoose.connect(process.env.MONGO_URL || process.env.MONGODB_URI);
 var Users = require('./models/users.js');
 var Matches = require('./models/matches.js');
 
@@ -13,7 +13,7 @@ var Matches = require('./models/matches.js');
 
 //How should I change this to work for postgres?  I assume I'm trying to create a new DB instance each time the app is loaded?
 var store = new MongoDBStore({
-  uri: process.env.MONGO_URL,
+  uri: process.env.MONGO_URL || process.env.MONGODB_URI,
   collection: 'sessions'
 });
 
