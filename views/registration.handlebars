@@ -31,6 +31,11 @@
 <div class="container">
   <h2>Build Your Profile!</h2>
   <p>Start building your profile here.  We'll use this information to match you with what you're looking for!</p>
+  {{#if errors}}
+  <div class="text-center" style="color:red" class="validation-error">
+      {{errors}}
+  </div>
+  {{/if}}
   <form action="/user/profile" method="post" class="form-horizontal" >
     <div class="col-xs-3">
       <label for="role">Select what role you'd like to take</label>
@@ -59,30 +64,19 @@
       <label for="dob">Please enter your date of birth</label>
       <input name="dob" type="date" class="form-control" placeholder="Your Zip Code">
       <br>
-      <div class="input-group">
-          <span class="input-group-btn">
-              <span class="btn btn-primary btn-file">
-                  Browse&hellip; <input type="file" name"profpic">
-              </span>
-          </span>
-          <input type="text" class="form-control" readonly>
-      </div>
-      <span class="help-block">
-          Please add your profile picture here
-      </span>
-      <br>
+      <form id =  "uploadForm"
+         enctype =  "multipart/form-data"
+         action =  "/api/photo"
+         method =  "post"
+      >
+        <input type="file" name="userPhoto" class="form-control"/>
+        <br>
+        <input type="submit" value="Upload Image" name="submit">
+      </form>
+      <br><hr>
       <div>
         <button class="blue sign-up-submit">Finish Registration</button>
       </div>
     </div>
-  </form>
-  <br>
-  <form id = "uploadForm"
-     enctype = "multipart/form-data"
-     action = "/api/photo"
-     method = "post"
-    >
-    <input type="file" name="userPhoto" />
-    <input type="submit" value="Upload Image" name="submit">
   </form>
 </div>
