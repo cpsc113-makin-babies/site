@@ -1,19 +1,17 @@
 var express = require('express');
+var multer = require('multer'); //note this is for uploading individual files to the public/uploads folder
 var exphbs  = require('express-handlebars');
 var app = express();
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var MongoDBStore = require('connect-mongodb-session')(session);
 var mongoose = require('mongoose');
-mongoose.connect(process.env.MONGO_URL);
+mongoose.connect(process.env.MONGO_URL || process.env.MONGODB_URI);
 var Users = require('./models/users.js');
 var Matches = require('./models/matches.js');
 
-//this needs to be changed to connect to a postgres database running on the local computer, later on heroku
-
-//How should I change this to work for postgres?  I assume I'm trying to create a new DB instance each time the app is loaded?
 var store = new MongoDBStore({
-  uri: process.env.MONGO_URL,
+  uri: process.env.MONGO_URL || process.env.MONGODB_URI,
   collection: 'sessions'
 });
 
@@ -90,7 +88,7 @@ app.post('/user/register', function (req, res) {
 
 app.post('/user/profile', function (req, res) {
   console.log("current user _id is ", res.locals.currentUser._id);
-  Users.findById(res.locals.currentUser._id), {
+  Users.findByIdAndUpdate(res.locals.currentUser._id, {
       //this is where I'm trying to find record by id and add new info. Not sure if I'm doing this right
       $set: {
         role: req.body.role,
@@ -99,14 +97,14 @@ app.post('/user/profile', function (req, res) {
         dob: req.body.dob,
       }
       //redirect to profile
-    }, res.redirect('/profile/');
-
-    var errors = "Error registering you.";
-    if(err){
+    }, function (err, user) {
+      var errors = "Error registering you.";
+      if(err){
+        return res.render('index', {errors: errors});
       }
-      return res.render('index', {errors: errors});
-    }
-  );
+      res.redirect('/profile/');
+  });
+});
 
 
 
@@ -139,7 +137,34 @@ app.get('/user/logout', function(req, res){
 //  the user to be logged in.
 app.use(isLoggedIn);
 
-
 app.listen(process.env.PORT, function () {
   console.log('Example app listening on port ' + process.env.PORT);
+});
+
+//this is for posting the profile pics to the public/uploads folder
+var storage =   multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, 'public/uploads');
+  },
+  filename: function (req, file, callback) {
+    callback(null, file.fieldname + '-' + Date.now());
+  }
+});
+var upload = multer({ storage : storage}).single('userPhoto');
+
+// app.get('/',function(req,res){
+//       res.sendFile(__dirname + "/index.html");
+// });
+
+app.post('/api/photo',function(req,res){
+    upload(req,res,function(err) {
+        if(err) {
+            res.render('registration', {errors: 'Error Uploading Profile Picture'});
+        }
+        res.end("File is uploaded");
+    });
+});
+
+app.listen(3000,function(){
+    console.log("Working on port 5000");
 });
