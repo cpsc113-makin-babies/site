@@ -25,6 +25,7 @@
     "express-handlebars": "^3.0.0",
     "express-session": "^1.13.0",
     "mongoose": "^4.4.11",
+    "multer": "^1.1.0",
     "mysql": "2.10.2",
     "nodemon": "^1.9.1",
     "sequelize": "^3.20.0"
