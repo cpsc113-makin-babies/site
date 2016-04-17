@@ -16,10 +16,40 @@
       ga('send', 'pageview');
     </script>
 </head>
+<style>
+  .navbar {
+      margin-bottom: 0;
+      background-color: #31d4e1;
+      z-index: 9999;
+      border: 0;
+      font-size: 12px !important;
+      line-height: 1.42857143 !important;
+      letter-spacing: 4px;
+      border-radius: 0;
+      font-family: Montserrat, sans-serif;
+  }
+  .navbar li a, .navbar .navbar-brand {
+      color: #fff !important;
+  }
+  .navbar-nav li a:hover, .navbar-nav li.active a {
+      color: #31d4e1 !important;
+      background-color: #fff !important;
+  }
+  .navbar-default .navbar-toggle {
+      border-color: transparent;
+      color: #fff !important;
+  }
+  footer .glyphicon {
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: #31d4e1;
+  }
+</style>
 <body>
+
   {{#if currentUser}}
-    <nav class="navbar navbar-inverse">
-      <div class="container-fluid">
+    <nav class="navbar navbar-default">
+      <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
             <span class="icon-bar"></span>
@@ -30,20 +60,44 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="/">Home</a></li>
-            <li><a href="#">About StorQ</a></li>
-            <li><a href="/">Team</a></li>
-            <li><a href="/">Contact</a></li>
+            <li><a href="/#about">ABOUT</a></li>
+            <li><a href="/#team">TEAM</a></li>
+            <li><a href="/#contact">CONTACT</a></li>
           </ul>
-          <ul class="nav navbar-nav navbar-right">
+          <ul class="nav navbar-nav navbar-right" id="myNavbar">
+            <li><a href="/profile">Profile</a></li>
             <li><a href="/user/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+  {{else}}
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">The StorQ</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#about">ABOUT</a></li>
+            <li><a href="#services">SERVICES</a></li>
+            <li><a href="#team">TEAM</a></li>
+            <li><a href="#pricing">PRICING</a></li>
+            <li><a href="#contact">CONTACT</a></li>
+            <li><a href="#login">SIGNUP/ LOGIN</a></li>
           </ul>
         </div>
       </div>
     </nav>
   {{/if}}
 
-    {{{body}}}
+  {{{body}}}
 <footer>
     <!-- <a href="/user/logout">Logout</a> -->
 </footer>
