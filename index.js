@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var MongoDBStore = require('connect-mongodb-session')(session);
 var mongoose = require('mongoose');
+var Grid = require('gridfs-stream');
 mongoose.connect(process.env.MONGO_URL || process.env.MONGODB_URI);
 var Users = require('./models/users.js');
 var Matches = require('./models/matches.js');
@@ -158,11 +159,11 @@ var upload = multer({ storage : storage}).single('userPhoto');
 // });
 
 app.post('/api/photo',function(req,res){
-    upload(req,res,function(err) {
+    upload(req, res, function(err) {
         if(err) {
-            res.render('registration', {errors: 'Error Uploading Profile Picture'});
+            res.render('registration', {errors: 'Error uploading profile picture'});
         }
-        res.end("File is uploaded");
+        res.render('registration', {errors: 'Your profile picture has been uploaded!'});
     });
 });
 
