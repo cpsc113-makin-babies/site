@@ -9,21 +9,28 @@
     }
 
     /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-    .row.content {height: 450px}
+    .row.content {height: 550px}
 
     /* Set gray background color and 100% height */
-    .sidenav {
+    .left_sidenav {
       padding-top: 20px;
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+    .right_sidenav {
+      padding-top: 10px;
+      padding-left: 10px;
+
       background-color: #f1f1f1;
       height: 100%;
     }
 
     /* Set black background color, white text and some padding */
-    footer {
+    /*footer {
       background-color: #555;
       color: white;
       padding: 15px;
-    }
+    }*/
 
     /* On small screens, set height to 'auto' for sidenav and grid */
     @media screen and (max-width: 767px) {
@@ -39,32 +46,38 @@
 
 <div class="container-fluid text-center">
   <div class="row content">
-    <div class="col-sm-2 sidenav">
-      <p><a href="#">Link</a></p>
-      <p><a href="#">Link</a></p>
-      <p><a href="#">Link</a></p>
+    <div class="col-sm-4 left_sidenav">
+      <img src="sanfran.jpg" alt="ProfilePic" width="300" height="300">
+      <hr>
+        <p><a href="#">Connections</a></p>
+      <hr>
+        <p><a href="#">Messages</a></p>
+      <hr>
+        <p><a href="#">Link</a></p>
     </div>
-    <div class="col-sm-8 text-left">
-      <h1>Welcome to The StorQ</h1>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    <div class="col-sm-6 text-left">
+      <h1>Welcome to The StorQ, {{currentUser.first_name}}</h1>
+      <p>This is your timeline.  Here's where you can find recent articles, information, and family planning tips that matter to you.</p>
       <hr>
       <h3>Test</h3>
       <p>Lorem ipsum...</p>
     </div>
-    <div class="col-sm-2 sidenav">
+    <div class="col-sm-2 right_sidenav">
       <div class="well">
-        <p>Something Here</p>
-      </div>
-      <div class="well">
-        <p>And Here</p>
+        <h4>My Profile</h4>
+        <ul class="text-left">
+          <li>My role: {{currentUser.role}}</li>
+          <li>My Education level: {{currentUser.educ}}</li>
+          <li>My Zip-Code: {{currentUser.zip}}</li>
+          <li>My Birthday: {{currentUser.dob}}</li>
       </div>
     </div>
   </div>
 </div>
 
-<footer class="container-fluid text-center">
-  <p>Copyight The StorQ - aka Talk to our Lawyers</p>
-</footer>
+<!-- <footer class="container-fluid text-center">
+  <p>Copyight @ The StorQ</p>
+</footer> -->
 
 </body>
 </html>
