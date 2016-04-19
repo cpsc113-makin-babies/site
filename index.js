@@ -16,9 +16,11 @@ var store = new MongoDBStore({
   collection: 'sessions'
 });
 
+//configuration info
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(express.static('views/styles/img'));
 
 app.use(session({ //   .use is express middleware, read about this
   secret: process.env.SESSION_SECRET,
