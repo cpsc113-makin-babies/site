@@ -27,7 +27,7 @@ var UserSchema = new Schema({
     educ: {type: String},
     zip: {type: Number},
     dob:  {type: Date},
-    profpic: {type: String}
+    profpic: { data: Buffer, contentType: String }
 });
 
 UserSchema.pre('save', function(next) {

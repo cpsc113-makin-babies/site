@@ -1,3 +1,4 @@
+var fs = require('fs');
 var express = require('express');
 var multer = require('multer'); //note this is for uploading individual files to the public/uploads folder
 var exphbs  = require('express-handlebars');
@@ -6,9 +7,12 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var MongoDBStore = require('connect-mongodb-session')(session);
 var mongoose = require('mongoose');
-var Grid = require('gridfs-stream');
 mongoose.connect(process.env.MONGO_URL || process.env.MONGODB_URI);
+var Grid = require('gridfs-stream');
+var GridFS = Grid(mongoose.connection.db, mongoose.mongo);
+
 var Users = require('./models/users.js');
+var Signups = require('./models/signups.js')
 var Matches = require('./models/matches.js');
 
 var store = new MongoDBStore({
@@ -20,7 +24,9 @@ var store = new MongoDBStore({
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-app.use(express.static('views/styles/img'));
+app.use(express.static('styles/img'));
+app.use("/styles", express.static(__dirname + '/styles'));
+
 
 app.use(session({ //   .use is express middleware, read about this
   secret: process.env.SESSION_SECRET,
@@ -87,6 +93,32 @@ app.post('/user/register', function (req, res) {
       return res.render('index', {errors: errors});
     }
   });
+});
+
+app.post('/leave-email', function(req, res) {
+  console.log(req.body.emailAddress);
+      if (!(req.body.emailAddress)){
+          return res.render('index', {errors: "Invalid email."});
+      }
+      var newSignup = new Signups();
+      newSignup.email = req.body.emailAddress;
+      newSignup.save(function(err, signup) {
+        return res.redirect('/');
+      });
+});
+
+app.post('/leave-comment', function(req, res) {
+  console.log(req.body.emailAddress);
+      if (!(req.body.emailAddress)){
+          return res.render('index', {errors: "Invalid email."});
+      }
+      var newComment = new Signups();
+      newSignup.email = req.body.emailAddress;
+      newSignup.name = req.body.commentName;
+      newSignup.comment = req.body.comment;
+      newSignup.save(function(err, signup) {
+        return res.redirect('/');
+      });
 });
 
 app.post('/user/profile', function (req, res) {
@@ -156,18 +188,34 @@ var storage =   multer.diskStorage({
 });
 var upload = multer({ storage : storage}).single('userPhoto');
 
-// app.get('/',function(req,res){
-//       res.sendFile(__dirname + "/index.html");
-// });
-
-app.post('/api/photo',function(req,res){
-    upload(req, res, function(err) {
-        if(err) {
-            res.render('registration', {errors: 'Error uploading profile picture'});
-        }
-        res.render('registration', {errors: 'Your profile picture has been uploaded!'});
+function putFile(path, name, callback) {
+    var writestream = GridFS.createWriteStream({
+        filename: name
     });
-});
+    writestream.on('close', function (file) {
+      callback(null, file);
+    });
+    fs.createReadStream(path).pipe(writestream);
+}
+
+app.post('/api/photo', upload, function(req,res){
+        putFile(req.file.path, res.locals.currentUser._id, function(err, file){
+          fs.unlink(req.file.path);
+          if(err) {
+              console.log('photo upload', err);
+              return res.render('registration', {errors: 'Error uploading profile picture'});
+          }
+            console.log('file uploaded, name:', res.locals.currentUser._id);
+          res.render('registration', {errors: 'Your profile picture has been uploaded!'});
+        });
+    });
+
+app.get('/profpic/get/:id', function(req, res){
+    var readstream = GridFS.createReadStream({
+       filename: res.locals.currentUser._id
+    });
+    readstream.pipe(res);
+  });
 
 app.listen(3000,function(){
     console.log("Working on port 5000");

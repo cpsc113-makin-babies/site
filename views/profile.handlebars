@@ -47,30 +47,27 @@
 <div class="container-fluid text-center">
   <div class="row content">
     <div class="col-sm-4 left_sidenav">
-      <img src="sanfran.jpg" alt="ProfilePic" width="300" height="300">
+      <img src="/profpic/get/:id" alt="ProfilePic" width="300" height="300">
       <hr>
-        <p><a href="#">Connections</a></p>
-      <hr>
-        <p><a href="#">Messages</a></p>
-      <hr>
-        <p><a href="#">Link</a></p>
+      <ul class="list-group">
+        <a href="#" class="list-group-item">Connections</a>
+        <br>
+        <a href="#" class="list-group-item">Messages</a>
     </div>
     <div class="col-sm-6 text-left">
-      <h1>Welcome to The StorQ, {{currentUser.first_name}}</h1>
+      <h1>Welcome to The StorQ, {{currentUser.first_name}} {{currentUser.last_name}}</h1>
       <p>This is your timeline.  Here's where you can find recent articles, information, and family planning tips that matter to you.</p>
       <hr>
       <h3>Test</h3>
       <p>Lorem ipsum...</p>
     </div>
     <div class="col-sm-2 right_sidenav">
-      <div class="well">
-        <h4>My Profile</h4>
-        <ul class="text-left">
-          <li>My role: {{currentUser.role}}</li>
-          <li>My Education level: {{currentUser.educ}}</li>
-          <li>My Zip-Code: {{currentUser.zip}}</li>
-          <li>My Birthday: {{currentUser.dob}}</li>
-      </div>
+      <h4>My Profile</h4>
+      <ul class="list-group">
+        <li class="list-group-item"><strong>My role:</strong> {{currentUser.role}}</li>
+        <li class="list-group-item"><strong>My Education level:</strong> {{currentUser.educ}}</li>
+        <li class="list-group-item"><strong>My Zip-Code:</strong> {{currentUser.zip}}</li>
+        <li class="list-group-item"><strong>My Birthday:</strong> {{currentUser.dob}}</li>
     </div>
   </div>
 </div>

@@ -33,7 +33,8 @@
 
 <div class="container-fluid">
   <h2>Build Your Profile!</h2>
-  <p>Start building your profile here.  We'll use this information to match you with what you're looking for!</p>
+  <p><strong>Start building your profile here.  We'll use this information to match you with what you're looking for! In our Beta Version, we will only be collecting a couple of simple pieces of information from users to get the conversation going.  Later we will expand our profiles significantly.</strong></p>
+  <p>  Of course, your information will always be kept confidential and will never be shared with any outside parties without your consent.</p>
   {{#if errors}}
   <div class="text-center" style="color:red" class="validation-error">
       {{errors}}
@@ -43,37 +44,40 @@
   <form action="/user/profile" method="post" class="form-horizontal" >
     <div class="col-xs-3">
       <label for="role">Select what role you'd like to take</label>
-      <select class="form-control" name="role">
-        <option value="sperm">Sperm donor</option>
-        <option value="egg">Egg donor</option>
-        <option value="carrier">Gestational carrier</option>
-        <option value="looking">Couple looking for a gestational carrier</option>
+      <select class="form-control" name="role" required>
+        <option>Sperm donor</option>
+        <option>Egg donor</option>
+        <option>Gestational carrier</option>
+        <option>Looking for a sperm donor</option>
+        <option>Looking for an egg donor</option>
+        <option>Looking for a gestational carrier</option>
+        <option>I'm just curious!</option>
       </select>
       <br>
       <label for="educ">Select your education level</label>
-      <select class="form-control" name="educ">
-        <option value="some-hs">Some High School</option>
-        <option value="hs-degree">High School Degree</option>
-        <option value="some-college">Some College</option>
-        <option value="assoc-degree">Associates Degree</option>
-        <option value="col-degree">Bachelor's Degree</option>
-        <option value="master">Master's Degree</option>
-        <option value="phd">Doctorate Degree</option>
-        <option value="not-list">I'd prefer not to list this</option>
+      <select class="form-control" name="educ" required>
+        <option>Some High School</option>
+        <option>High School Degree</option>
+        <option>Some College</option>
+        <option>Associates Degree</option>
+        <option>Bachelor's Degree</option>
+        <option>Master's Degree</option>
+        <option>Doctorate Degree</option>
+        <option>I'd prefer not to list this</option>
       </select>
       <br>
       <label for="zip">Please enter your Zip Code</label>
-      <input name="zip" type="number" class="form-control" placeholder="Your Zip Code">
+      <input name="zip" type="number" class="form-control" placeholder="Your Zip Code" required>
       <br>
       <label for="dob">Please enter your date of birth</label>
-      <input name="dob" type="date" class="form-control" placeholder="Your Zip Code">
+      <input name="dob" type="date" class="form-control" placeholder="" required>
       <hr>
       <div>
         <button class="blue sign-up-submit">Finish Registration</button>
       </div>
     </div>
   </form>
-  
+
   <form id =  "uploadForm"
      enctype =  "multipart/form-data"
      action =  "/api/photo"
